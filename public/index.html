@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mini Chat App</title>
 </head>
 <body>
     <h1>Mini Chat Website</h1>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        io('http://localhost:8080/')
+        const socket = io('http://localhost:8080/');
+
+        socket.on('mensaje_bienvenida',(data)=>{
+            console.log(
+                `El servidor dice : ${data.msg} a las ${data.date}`
+            )
+        })
+        setTimeout(() => {
+            socket.emit('mensaje_cliente', {
+                msg: `Cliente`,
+                nombre: 'Fausto',
+                date: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+            })
+        }, 2000);
+       
     </script>
 </body>
 </html>

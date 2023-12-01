@@ -11,9 +11,24 @@ const io = require('socket.io')(server);
 app.use(express.static(__dirname+'/public'));
 
 
-io.on('connection', () => { 
-    console.log('an user has connected');
+io.on('connection', (socket) => { 
+    console.log(socket.id);
+   
+    socket.emit('mensaje_bienvenida', {
+        msg: `Bienvenido al chat user ${socket.id}`,
+        date: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+    });
+
+    socket.on('mensaje_cliente',(data)=>{
+        console.log(
+            `El servidor dice ${data.nombre} : ${data.msg} a las ${data.date}`
+        )
+    })
+
+
 });
+
+
 
 
 // CORRER SERVER
